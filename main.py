@@ -1,17 +1,12 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-from starlette.responses import FileResponse
-from starlette.staticfiles import StaticFiles
-from starlette.responses import RedirectResponse
+from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
-# app.mount("/build", StaticFiles(directory="build", html=True), name="build")
 
-
-@app.get("/")
-async def home():
-    # return {"text": "Babak!"}
-    return RedirectResponse(url="/index.html")
-
-app.mount("/", StaticFiles(directory="build/", html=True), name="build")
+@app.get("/", response_class=HTMLResponse)
+async def demo():
+    html_content = """
+        <h1>Hello World!</h1>
+    """
+    return HTMLResponse(content=html_content, status_code=200)
